@@ -16,10 +16,11 @@ defineProps({
   <section v-if="selectedPokemon" :style="{ backgroundColor: cardColor }" class="pokemon-card">
     <header class="pokemon-card__header">
       <h1 class="pokemon-card__h1">{{ useCapitalize(selectedPokemon.forms[0].name) }}</h1>
-
-      <div v-for="type in selectedPokemon.types" :key="type">
-        <p>{{ type.type.name }}</p>
-      </div>
+      <ul>
+        <li v-for="type in selectedPokemon.types" :key="type" class="pokemon-card__li">
+          <p>{{ type.type.name }}</p>
+        </li>
+      </ul>
     </header>
 
     <main class="pokemon-card__main">
@@ -39,35 +40,6 @@ defineProps({
       </section>
     </main>
   </section>
-
-  <!--TARJETAS DEL PRINCIPIO  -->
-
-  <!-- <section v-if="pokemon" :style="{ backgroundColor: cardColor }" class="pokemon-card">
-    <header class="pokemon-card__header">
-      <h1 class="pokemon-card__h1">{{ useCapitalize(pokemon.name) }}</h1>
-
-      <div v-for="type in pokemon.types" :key="type">
-        <p>{{ type.type.name }}</p>
-      </div>
-    </header>
-
-    <main class="pokemon-card__main">
-      <img
-        v-if="pokemon"
-        :src="pokemon.sprites.other.home.front_default"
-        :alt="pokemon.forms.name"
-        class="pokemon-card__img"
-      />
-      <section class="pokemon-card__section--stats">
-        <div v-for="(stat, index) in selectedPokemon.stats" :key="index">
-          <p>{{ stat.stat.name }}: {{ stat.base_stat }}</p>
-        </div>
-      </section>
-      <section class="pokemon-card__section--description">
-        <p>{{ selectedPokemon.description }}</p>
-      </section>
-    </main>
-  </section> -->
 </template>
 
 <style lang="scss" scoped>
@@ -80,6 +52,7 @@ defineProps({
   padding: 1em;
   text-align: center;
   border: 1.5em solid $color-card;
+  overflow-y: auto;
 
   color: $text-color-secundary;
 
@@ -93,14 +66,16 @@ defineProps({
     font-size: 1.5rem;
   }
 
-  &__span {
-    font-size: 1rem;
+  &__li {
+    list-style: none;
   }
-
   &__img {
     width: 20em;
     height: 20em;
     margin: 1em;
+  }
+  &__span {
+    font-size: 1rem;
   }
 
   &__section {
@@ -114,10 +89,6 @@ defineProps({
       p {
         margin: 0.2em 0;
       }
-    }
-
-    &--desciption {
-      max-height: fit-content;
     }
   }
 }

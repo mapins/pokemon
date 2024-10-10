@@ -1,7 +1,6 @@
 <script setup>
 import SideBar from './SideBar.vue'
 import PokemonCard from './PokemonCard.vue'
-import PokemonCards from './PokemonCards.vue'
 </script>
 
 <template>
@@ -10,7 +9,7 @@ import PokemonCards from './PokemonCards.vue'
       <SideBar />
     </aside>
     <section class="layout__content">
-      <PokemonCards />
+      <PokemonCard />
     </section>
   </main>
 </template>
@@ -26,13 +25,10 @@ import PokemonCards from './PokemonCards.vue'
 }
 
 .layout__content {
-  flex-grow: 1; /* Ocupa el resto del espacio disponible, de lo que sobra de 15 em */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-
   padding: 1em;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .layout__content > * {
