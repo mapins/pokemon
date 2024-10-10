@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const typeColors = {
     bug: "#A8B400",
@@ -28,6 +28,8 @@ export const usePokemonStore = defineStore('pokemon', () => {
     const typePokemon = ref()
     const cardColor = ref(' ')
     const defaultPokemon = ref()
+    const allPokemons = ref([]);
+
 
     async function defaultPokemons() {
         try {
@@ -65,29 +67,34 @@ export const usePokemonStore = defineStore('pokemon', () => {
         const response = await fetch(url);
         const data = await response.json();
 
-        selectedPokemon.value = data
+        // Crea una copia del objeto Pokémon
+        const pokemonData = { ...data };
 
-        typePokemon.value = data.types.map(type => type.type.name)
+        typePokemon.value = data.types.map(type => type.type.name);
         cardColor.value = typeColors[typePokemon.value[0]] || '#ffffff';
 
-        console.log(cardColor.value);
-
-        const speciesResponse = await fetch(data.species.url); //Aqui lo qu esta haciendo es que hago un fetch a la url de dentro de la especie del pokemon
+        const speciesResponse = await fetch(data.species.url);
         const speciesData = await speciesResponse.json();
-
-        console.log(speciesData.value);
-        console.log(selectedPokemon.value);
 
         const descriptionEntry = speciesData.flavor_text_entries.find(
             (entry) => entry.language.name === "en"
-        ); //Y ahora lo que hago es que guardo la descripcion que quiero que este en ingles
+        );
 
-        selectedPokemon.value.description = descriptionEntry ? descriptionEntry.flavor_text : "Descripción no disponible."; //Y la guardo dentro de selectedPokemon.
+        // Añadir la descripción al objeto Pokémon
+        pokemonData.description = descriptionEntry ? descriptionEntry.flavor_text : "Descripción no disponible.";
 
-
+        // Agregar el Pokémon a allPokemons solo si no está ya presente
+        if (!allPokemons.value.some(p => p.pokemon.id === pokemonData.id)) {
+            allPokemons.value.push({
+                pokemon: pokemonData,
+                type: typePokemon.value,
+                cardColor: cardColor.value,
+            });
+        }
 
     }
 
 
-    return { filteredPokemon, searchPokemon, showPokemon, selectedPokemon, cardColor, defaultPokemon, defaultPokemons };
+
+    return { filteredPokemon, searchPokemon, showPokemon, selectedPokemon, cardColor, defaultPokemon, defaultPokemons, allPokemons };
 });

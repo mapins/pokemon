@@ -10,7 +10,7 @@ import PokemonCards from './PokemonCards.vue'
       <SideBar />
     </aside>
     <section class="layout__content">
-      <PokemonCard />
+      <PokemonCards />
     </section>
   </main>
 </template>
