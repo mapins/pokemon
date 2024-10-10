@@ -1,49 +1,124 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { usePokemonStore } from '@/stores/pokemon'
+import { useCapitalize } from '../composables/useCapitalize'
 
 const pokemonStore = usePokemonStore()
-const { filteredPokemon, selectedPokemon } = storeToRefs(pokemonStore) //Sacar variables
-const { searchPokemon, showPokemon } = pokemonStore //Sacar funciones
+const { selectedPokemon, cardColor } = storeToRefs(pokemonStore) //Sacar variables
+
+defineProps({
+  pokemon: Object
+})
 </script>
 
 <template>
-  <article class="pokemon-card">
+  <!-- CUANDO SELECCIONAN UN POKEMON -->
+  <section v-if="selectedPokemon" :style="{ backgroundColor: cardColor }" class="pokemon-card">
     <header class="pokemon-card__header">
-      <h1 class="pokemon-card__h1">{{ selectedPokemon }}</h1>
+      <h1 class="pokemon-card__h1">{{ useCapitalize(selectedPokemon.forms[0].name) }}</h1>
+
+      <div v-for="type in selectedPokemon.types" :key="type">
+        <p>{{ type.type.name }}</p>
+      </div>
     </header>
 
     <main class="pokemon-card__main">
-      <figure class="pokemon-card__icon">
-        <span class="material-icons icon">cloud</span>
-        <figcaption class="pokemon-card__caption"></figcaption>
-      </figure>
-
-      <section class="pokemon-card__section">
-        <p class="pokemon-card__p">15°C</p>
+      <img
+        v-if="selectedPokemon"
+        :src="selectedPokemon.sprites.other.home.front_default"
+        :alt="selectedPokemon.forms.name"
+        class="pokemon-card__img"
+      />
+      <section class="pokemon-card__section--stats">
+        <div v-for="(stat, index) in selectedPokemon.stats" :key="index">
+          <p>{{ stat.stat.name }}: {{ stat.base_stat }}</p>
+        </div>
+      </section>
+      <section class="pokemon-card__section--description">
+        <p>{{ selectedPokemon.description }}</p>
       </section>
     </main>
-  </article>
+  </section>
+
+  <!--TARJETAS DEL PRINCIPIO  -->
+
+  <!-- <section v-if="pokemon" :style="{ backgroundColor: cardColor }" class="pokemon-card">
+    <header class="pokemon-card__header">
+      <h1 class="pokemon-card__h1">{{ useCapitalize(pokemon.name) }}</h1>
+
+      <div v-for="type in pokemon.types" :key="type">
+        <p>{{ type.type.name }}</p>
+      </div>
+    </header>
+
+    <main class="pokemon-card__main">
+      <img
+        v-if="pokemon"
+        :src="pokemon.sprites.other.home.front_default"
+        :alt="pokemon.forms.name"
+        class="pokemon-card__img"
+      />
+      <section class="pokemon-card__section--stats">
+        <div v-for="(stat, index) in selectedPokemon.stats" :key="index">
+          <p>{{ stat.stat.name }}: {{ stat.base_stat }}</p>
+        </div>
+      </section>
+      <section class="pokemon-card__section--description">
+        <p>{{ selectedPokemon.description }}</p>
+      </section>
+    </main>
+  </section> -->
 </template>
 
 <style lang="scss" scoped>
 @import '../assets/styles/scss/variables.scss';
 
 .pokemon-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: $background-color-secundary;
-  text-align: center;
-  color: $text-color-primary;
   width: 40em;
-  height: 30em;
+  max-height: fit-content;
+  border-radius: 2em;
+  padding: 1em;
+  text-align: center;
+  border: 1.5em solid $color-card;
+
+  color: $text-color-secundary;
+
   &__header {
+    background-color: $background-color-secundary;
+    padding: 1em;
+    border-radius: 1em 1em 0 0;
+  }
+
+  &__h1 {
+    font-size: 1.5rem;
+  }
+
+  &__span {
+    font-size: 1rem;
+  }
+
+  &__img {
+    width: 20em;
+    height: 20em;
     margin: 1em;
   }
 
   &__section {
-    margin: 1em;
+    &--stats {
+      background-color: $background-color-secundary;
+      padding: 1em;
+      border-radius: 1em;
+      margin-bottom: 1em;
+      font-size: 0.9rem;
+
+      p {
+        margin: 0.2em 0;
+      }
+    }
+
+    &--desciption {
+      max-height: fit-content;
+    }
   }
 }
 </style>

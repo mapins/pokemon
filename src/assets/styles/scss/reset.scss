@@ -20,10 +20,33 @@ body {
   max-width: 120rem;
   margin: auto;
   background-color: $background-color;
-  font-family: var(--f-font-regular);
-  color: var(--c-white);
+  background-image: $background-image-primary;
+  font-family: $font-family;
   min-height: 100vh;
   font-size: 100%;
+}
+
+p {
+  font-size: 1.5em;
+  text-wrap: pretty;
+  line-height: 1.35em;
+}
+
+a {
+  display: block;
+  text-decoration: none;
+  color: $text-color-secundary;
+  font-size: $font-size-primary;
+  font-weight: 100;
+}
+
+input {
+  font-family: $font-family;
+  font-size: $font-size-primary;
+}
+
+button {
+  font-size: $font-size-primary;
 }
 
 /* img,

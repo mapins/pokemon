@@ -1,8 +1,7 @@
 <script setup>
 import SideBar from './SideBar.vue'
 import PokemonCard from './PokemonCard.vue'
-import PokemonData from './PokemonDetails.vue'
-//import WeatherUnits from './WeatherUnits.vue'
+import PokemonCards from './PokemonCards.vue'
 </script>
 
 <template>
@@ -12,7 +11,6 @@ import PokemonData from './PokemonDetails.vue'
     </aside>
     <section class="layout__content">
       <PokemonCard />
-      <PokemonData />
     </section>
   </main>
 </template>

@@ -1,7 +1,8 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { usePokemonStore } from '@/stores/pokemon'
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
+import { useCapitalize } from '../composables/useCapitalize'
 
 const showSideBar = ref()
 
@@ -24,12 +25,13 @@ function thisPokemon(url) {
   <aside class="lateral-pokemon">
     <nav class="lateral-pokemon__nav">
       <button class="lateral-pokemon__button" @click="showSideBar = !showSideBar">
-        <p class="lateral-pokemon__p">Search for pokemons {{ showSideBar }}</p>
+        Search for pokemons
       </button>
 
       <figure class="pokemon-card__icon">
-        <span class="material-symbols-outlined">spoke</span>
-        <figcaption class="pokemon-card__caption"></figcaption>
+        <figcaption class="pokemon-card__caption">
+          <img class="lateral-pokemon__img" src="../assets/img/icono.png" alt="" />
+        </figcaption>
       </figure>
     </nav>
 
@@ -40,17 +42,17 @@ function thisPokemon(url) {
     >
       <section class="lateral-pokemon__section">
         <figure class="pokemon-card__icon">
-          <span class="material-symbols-outlined"> {{ selectedPokemon }} </span>
+          <span class="material-symbols-outlined"> </span>
           <figcaption class="pokemon-card__caption"></figcaption>
         </figure>
-        <p class="lateral-pokemon__p">{{ temperature }} {{ temperature_unit }}</p>
-        <p class="lateral-pokemon__p">Shower</p>
-        <p class="lateral-pokemon__p">Today {{ date }}</p>
+        <p class="lateral-pokemon__p"></p>
+        <p class="lateral-pokemon__p"></p>
+        <p class="lateral-pokemon__p"></p>
         <figure class="pokemon-card__icon">
-          <span class="material-icons icon">location_on</span>
+          <span class="material-icons icon"></span>
           <figcaption class="pokemon-card__caption"></figcaption>
         </figure>
-        <p class="lateral-pokemon__p">Location</p>
+        <p class="lateral-pokemon__p"></p>
       </section>
     </section>
 
@@ -63,9 +65,9 @@ function thisPokemon(url) {
       />
 
       <!-- Mostrar resultados de búsqueda -->
-      <ul v-if="filteredPokemon.length > 0" class="lateral-pokemon__ul">
+      <ul v-if="filteredPokemon.length > 0 && searchTerm.length > 0" class="lateral-pokemon__ul">
         <li v-for="pokemon in filteredPokemon" :key="pokemon.name">
-          <a href="#" @click="thisPokemon(pokemon.url)">{{ pokemon.name }}</a>
+          <a href="#" @click="showPokemon(pokemon.url)">{{ useCapitalize(pokemon.name) }}</a>
         </li>
       </ul>
 
@@ -82,6 +84,7 @@ function thisPokemon(url) {
   flex-direction: column;
   padding: 1em;
   background-color: $background-color-secundary;
+  background-image: $background-image-primary;
   text-align: center;
   color: $text-color-primary;
   height: 100vh;
@@ -99,6 +102,10 @@ function thisPokemon(url) {
       align-items: center;
       justify-content: space-around;
     }
+
+    &--active {
+      overflow-y: auto;
+    }
   }
 
   &__button {
@@ -107,6 +114,10 @@ function thisPokemon(url) {
     border: none;
     height: 3em;
     padding: 1em;
+    border-radius: 1em;
+    text-align: center;
+    font-family: $font-family;
+    font-size: 1.5em;
   }
 
   // Estilos para la barra lateral
@@ -142,6 +153,11 @@ function thisPokemon(url) {
 
   &__ul {
     list-style: none;
+  }
+
+  &__img {
+    width: 5em;
+    height: 5em;
   }
 }
 </style>
