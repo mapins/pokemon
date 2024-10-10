@@ -4,16 +4,28 @@ import { usePokemonStore } from '@/stores/pokemon'
 import { useCapitalize } from '../composables/useCapitalize'
 
 const pokemonStore = usePokemonStore()
-const { selectedPokemon, cardColor } = storeToRefs(pokemonStore) //Sacar variables
-
-defineProps({
-  pokemon: Object
-})
+const { selectedPokemon, cardColor, isLoading, pokemonDescription } = storeToRefs(pokemonStore) //Sacar variables
 </script>
 
 <template>
+  <section v-if="!selectedPokemon && !isLoading" class="initial-pokemons">
+    <img
+      src="@/assets/img/initial.png"
+      alt="Image of a group of pokemons"
+      class="initial-pokemons__img"
+    />
+  </section>
+
+  <section v-if="isLoading" class="is-loading">
+    <img src="@/assets/gif/loading.gif" alt="Image of the page loading" class="is-loading__img" />
+  </section>
+
   <!-- CUANDO SELECCIONAN UN POKEMON -->
-  <section v-if="selectedPokemon" :style="{ backgroundColor: cardColor }" class="pokemon-card">
+  <section
+    v-if="selectedPokemon && !isLoading"
+    :style="{ backgroundColor: cardColor }"
+    class="pokemon-card"
+  >
     <header class="pokemon-card__header">
       <h1 class="pokemon-card__h1">{{ useCapitalize(selectedPokemon.forms[0].name) }}</h1>
       <ul>
@@ -23,7 +35,7 @@ defineProps({
       </ul>
     </header>
 
-    <main class="pokemon-card__main">
+    <main>
       <img
         v-if="selectedPokemon"
         :src="selectedPokemon.sprites.other.home.front_default"
@@ -35,8 +47,8 @@ defineProps({
           <p>{{ stat.stat.name }}: {{ stat.base_stat }}</p>
         </div>
       </section>
-      <section class="pokemon-card__section--description">
-        <p>{{ selectedPokemon.description }}</p>
+      <section>
+        <p>{{ pokemonDescription.flavor_text }}</p>
       </section>
     </main>
   </section>
@@ -44,6 +56,28 @@ defineProps({
 
 <style lang="scss" scoped>
 @import '../assets/styles/scss/variables.scss';
+
+.initial-pokemons {
+  display: flex;
+  align-items: center;
+  &__img {
+    width: 50em;
+  }
+}
+
+.is-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  &__img {
+    width: 20em;
+    height: auto;
+    margin-bottom: 1em;
+  }
+}
 
 .pokemon-card {
   width: 40em;
@@ -69,13 +103,11 @@ defineProps({
   &__li {
     list-style: none;
   }
+
   &__img {
     width: 20em;
     height: 20em;
     margin: 1em;
-  }
-  &__span {
-    font-size: 1rem;
   }
 
   &__section {

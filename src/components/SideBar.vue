@@ -13,12 +13,8 @@ const { searchPokemon, showPokemon } = pokemonStore //Sacar funciones
 const searchTerm = ref('')
 
 watch(searchTerm, (newTerm) => {
-  searchPokemon(newTerm) // Cmbia el input y hacemos busqueda
+  searchPokemon(newTerm) // Cmbia el valor del input y hacemos busqueda
 })
-
-/* function thisPokemon(url) {
-  showPokemon(url)
-} */
 </script>
 
 <template>
@@ -30,10 +26,18 @@ watch(searchTerm, (newTerm) => {
 
       <figure>
         <figcaption>
-          <img class="lateral-pokemon__img" src="../assets/img/icono.png" alt="" />
+          <img class="lateral-pokemon__img" src="@/assets/img/icon.png" alt="Image of a pokeball" />
         </figcaption>
       </figure>
     </nav>
+
+    <section v-if="!showSideBar" class="lateral-pokemon__section--pokedex">
+      <img
+        src="@/assets/img/pokedex.png"
+        alt="Image of a pokedex"
+        class="lateral-pokemon__img--pokedex"
+      />
+    </section>
 
     <!-- CUANDO BUSCO POKEMON -->
     <section v-if="showSideBar" class="lateral-pokemon__section lateral-pokemon__section--active">
@@ -59,6 +63,8 @@ watch(searchTerm, (newTerm) => {
 @import '../assets/styles/scss/variables.scss';
 
 .lateral-pokemon {
+  display: flex;
+  flex-direction: column;
   padding: 1em;
   background-color: $background-color-secundary;
   background-image: $background-image-primary;
@@ -74,6 +80,7 @@ watch(searchTerm, (newTerm) => {
     background-color: $background-color-search;
     border: none;
     border-radius: 1em;
+    max-height: fit-content;
   }
 
   &__p {
@@ -83,13 +90,23 @@ watch(searchTerm, (newTerm) => {
   }
 
   &__img {
-    width: 5em;
-    height: 5em;
+    width: 3.4em;
+    height: 3.4em;
+    &--pokedex {
+      width: 15em;
+      height: 15em;
+    }
   }
 
   &__section {
     &--active {
-      overflow-y: auto;
+      overflow-y: scroll;
+    }
+
+    &--pokedex {
+      display: flex;
+      justify-content: center;
+      margin-top: 6em;
     }
   }
 
@@ -100,7 +117,7 @@ watch(searchTerm, (newTerm) => {
     padding: 0.5em;
     border: 0.2em solid #ccc;
     border-radius: 5em;
-    margin: 4em 0;
+    margin: 1.5em 0;
     text-align: center;
   }
 

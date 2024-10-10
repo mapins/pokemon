@@ -27,24 +27,8 @@ export const usePokemonStore = defineStore('pokemon', () => {
     const selectedPokemon = ref()
     const typePokemon = ref()
     const cardColor = ref(' ')
-    const defaultPokemon = ref()
-
-    async function defaultPokemons() {
-        try {
-            const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=8`);
-            const data = await response.json();
-
-            defaultPokemon.value = data.results
-
-            for (const pokemon of defaultPokemon.value) {
-                await showPokemon(pokemon.url);
-            }
-
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
-
+    const isLoading = ref()
+    const pokemonDescription = ref()
 
     async function searchPokemon(searchItem) {
         try {
@@ -55,36 +39,39 @@ export const usePokemonStore = defineStore('pokemon', () => {
                 pokemon.name.toLowerCase().startsWith(searchItem.toLowerCase())
             );
 
-
         } catch (error) {
             console.log(error.message);
         }
     }
 
     async function showPokemon(url) {
-        const response = await fetch(url);
-        const data = await response.json();
+        isLoading.value = true
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
 
-        selectedPokemon.value = data
+            selectedPokemon.value = data
 
-        typePokemon.value = data.types.map(type => type.type.name)
-        cardColor.value = typeColors[typePokemon.value[0]] || '#ffffff';
+            typePokemon.value = data.types.map(type => type.type.name)
+            cardColor.value = typeColors[typePokemon.value[0]];
 
-        console.log(cardColor.value);
+            const speciesResponse = await fetch(data.species.url); //Aqui lo qu esta haciendo es que hago un fetch a la url de dentro de la especie del pokemon
+            const speciesData = await speciesResponse.json();
 
-        const speciesResponse = await fetch(data.species.url); //Aqui lo qu esta haciendo es que hago un fetch a la url de dentro de la especie del pokemon
-        const speciesData = await speciesResponse.json();
+            pokemonDescription.value = speciesData.flavor_text_entries.find(
+                (entry) => entry.language.name === "en"
+            ); //Y ahora lo que hago es que guardo la descripcion que quiero que este en ingles
 
-        console.log(speciesData.value);
-        console.log(selectedPokemon.value);
+        } catch (error) {
+            console.log(error.message);
 
-        const descriptionEntry = speciesData.flavor_text_entries.find(
-            (entry) => entry.language.name === "en"
-        ); //Y ahora lo que hago es que guardo la descripcion que quiero que este en ingles
-
-        selectedPokemon.value.description = descriptionEntry ? descriptionEntry.flavor_text : "Descripción no disponible."; //Y la guardo dentro de selectedPokemon.
+        } finally {
+            setTimeout(() => {
+                isLoading.value = false;
+            }, 500);
+        }
     }
 
 
-    return { filteredPokemon, searchPokemon, showPokemon, selectedPokemon, cardColor, defaultPokemon, defaultPokemons };
+    return { filteredPokemon, searchPokemon, showPokemon, selectedPokemon, cardColor, isLoading, pokemonDescription };
 });
