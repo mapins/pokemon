@@ -124,4 +124,24 @@ const { selectedPokemon, cardColor, isLoading, pokemonDescription } = storeToRef
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .pokemon-card {
+    width: 100%;
+    padding: 0.5em;
+
+    &__img {
+      width: 10em;
+      height: 10em;
+    }
+  }
+
+  .is-loading__img {
+    width: 10em;
+  }
+
+  .initial-pokemons__img {
+    width: 100%;
+  }
+}
 </style>

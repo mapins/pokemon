@@ -26,18 +26,14 @@ watch(searchTerm, (newTerm) => {
 
       <figure>
         <figcaption>
-          <img class="lateral-pokemon__img" src="@/assets/img/icon.png" alt="Image of a pokeball" />
+          <img
+            class="lateral-pokemon__img"
+            src="@/assets/img/pokedex.png"
+            alt="Image of a pokeball"
+          />
         </figcaption>
       </figure>
     </nav>
-
-    <section v-if="!showSideBar" class="lateral-pokemon__section--pokedex">
-      <img
-        src="@/assets/img/pokedex.png"
-        alt="Image of a pokedex"
-        class="lateral-pokemon__img--pokedex"
-      />
-    </section>
 
     <!-- CUANDO BUSCO POKEMON -->
     <section v-if="showSideBar" class="lateral-pokemon__section lateral-pokemon__section--active">
@@ -50,7 +46,12 @@ watch(searchTerm, (newTerm) => {
       <!-- RESULTADO BUSQUEDA -->
       <ul v-if="filteredPokemon.length > 0 && searchTerm.length > 0" class="lateral-pokemon__ul">
         <li v-for="pokemon in filteredPokemon" :key="pokemon.name">
-          <a href="#" @click="showPokemon(pokemon.url)">{{ useCapitalize(pokemon.name) }}</a>
+          <a
+            href="#"
+            @click="showPokemon(pokemon.url)"
+            :aria-label="`Link to see the card of ${pokemon.name}`"
+            >{{ useCapitalize(pokemon.name) }}</a
+          >
         </li>
       </ul>
 
@@ -123,6 +124,28 @@ watch(searchTerm, (newTerm) => {
 
   &__ul {
     list-style: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .lateral-pokemon {
+    padding: 0.5em;
+    height: auto;
+
+    &__button {
+      width: 100%;
+      padding: 0.5em;
+    }
+
+    &__img {
+      width: 2.5em;
+      height: 2.5em;
+    }
+
+    &__input {
+      width: 100%;
+      height: 2.5em;
+    }
   }
 }
 </style>
