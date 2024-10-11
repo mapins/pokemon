@@ -51,6 +51,8 @@ import PokemonFooter from './PokemonFooter.vue'
     padding: 1em 0;
     text-align: center;
     background-color: $background-color-secundary;
+    background-image: $background-image-primary;
+
     position: sticky;
     bottom: 0;
     margin-top: auto;

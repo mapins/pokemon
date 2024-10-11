@@ -27,7 +27,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 1em;
-  background-color: $background-color-secundary;
   color: $text-color-secundary;
   text-align: center;
 
