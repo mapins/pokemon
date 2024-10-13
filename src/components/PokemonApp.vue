@@ -21,21 +21,16 @@ import PokemonFooter from './PokemonFooter.vue'
 </template>
 
 <style lang="scss" scoped>
-@import '../assets/styles/scss/variables.scss';
-
 .layout {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-
+  @include flex(column);
   &__sidebar {
-    width: 30em;
+    width: 25em;
   }
 
   &__page {
     display: flex;
-    flex-grow: 1;
     height: 80vh;
+    width: 100%;
   }
 
   &__content {
@@ -44,6 +39,8 @@ import PokemonFooter from './PokemonFooter.vue'
     display: flex;
     justify-content: center;
     flex-direction: row;
+    background-color: $background-color;
+    background-image: $background-image-primary;
   }
 
   &__footer {
@@ -52,19 +49,16 @@ import PokemonFooter from './PokemonFooter.vue'
     text-align: center;
     background-color: $background-color-secundary;
     background-image: $background-image-primary;
-
-    position: sticky;
-    bottom: 0;
-    margin-top: auto;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 48em) {
   .layout {
     flex-direction: column;
 
     &__page {
       flex-direction: column;
+      flex-grow: 1;
     }
 
     &__sidebar {
@@ -73,6 +67,10 @@ import PokemonFooter from './PokemonFooter.vue'
 
     &__content {
       padding: 0.5em;
+    }
+
+    &__footer {
+      margin-top: auto;
     }
   }
 }

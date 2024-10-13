@@ -20,7 +20,6 @@ const { selectedPokemon, cardColor, isLoading, pokemonDescription } = storeToRef
     <img src="@/assets/gif/loading.gif" alt="Image of the page loading" class="is-loading__img" />
   </section>
 
-  <!-- CUANDO SELECCIONAN UN POKEMON -->
   <section
     v-if="selectedPokemon && !isLoading"
     :style="{ backgroundColor: cardColor }"
@@ -29,16 +28,16 @@ const { selectedPokemon, cardColor, isLoading, pokemonDescription } = storeToRef
     <header class="pokemon-card__header">
       <h1 class="pokemon-card__h1">{{ useCapitalize(selectedPokemon.forms[0].name) }}</h1>
       <ul>
-        <li v-for="type in selectedPokemon.types" :key="type" class="pokemon-card__li">
+        <li v-for="(type, index) in selectedPokemon.types" :key="index">
           <p>{{ type.type.name }}</p>
         </li>
       </ul>
     </header>
 
-    <main>
+    <article>
       <img
         v-if="selectedPokemon"
-        :src="selectedPokemon.sprites.other.home.front_default"
+        :src="selectedPokemon.sprites.front_default"
         :alt="selectedPokemon.forms.name"
         class="pokemon-card__img"
       />
@@ -50,13 +49,11 @@ const { selectedPokemon, cardColor, isLoading, pokemonDescription } = storeToRef
       <section>
         <p>{{ pokemonDescription.flavor_text }}</p>
       </section>
-    </main>
+    </article>
   </section>
 </template>
 
 <style lang="scss" scoped>
-@import '../assets/styles/scss/variables.scss';
-
 .initial-pokemons {
   display: flex;
   align-items: center;

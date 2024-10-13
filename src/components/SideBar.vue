@@ -4,23 +4,21 @@ import { usePokemonStore } from '@/stores/pokemon'
 import { ref, watch } from 'vue'
 import { useCapitalize } from '../composables/useCapitalize'
 
-const showSideBar = ref()
-
 const pokemonStore = usePokemonStore()
-const { filteredPokemon } = storeToRefs(pokemonStore) //Sacar variables
-const { searchPokemon, showPokemon } = pokemonStore //Sacar funciones
+const { filteredPokemon } = storeToRefs(pokemonStore)
+const { searchPokemon, showPokemon } = pokemonStore
 
 const searchTerm = ref('')
 
 watch(searchTerm, (newTerm) => {
-  searchPokemon(newTerm) // Cmbia el valor del input y hacemos busqueda
+  searchPokemon(newTerm)
 })
 </script>
 
 <template>
-  <aside class="lateral-pokemon">
+  <article class="lateral-pokemon">
     <nav class="lateral-pokemon__nav">
-      <button class="lateral-pokemon__button" @click="showSideBar = !showSideBar">
+      <button class="lateral-pokemon__button">
         <p class="lateral-pokemon__p">Search for pokemons</p>
       </button>
 
@@ -35,15 +33,16 @@ watch(searchTerm, (newTerm) => {
       </figure>
     </nav>
 
-    <!-- CUANDO BUSCO POKEMON -->
-    <section v-if="showSideBar" class="lateral-pokemon__section lateral-pokemon__section--active">
+    <section
+      class="lateral-pokemon__section"
+      :class="{ 'lateral-pokemon__section--active': searchTerm.length > 0 }"
+    >
       <input
         v-model="searchTerm"
         class="lateral-pokemon__input"
         placeholder="Search Pokémon by name..."
       />
 
-      <!-- RESULTADO BUSQUEDA -->
       <ul v-if="filteredPokemon.length > 0 && searchTerm.length > 0" class="lateral-pokemon__ul">
         <li v-for="pokemon in filteredPokemon" :key="pokemon.name">
           <a
@@ -57,19 +56,17 @@ watch(searchTerm, (newTerm) => {
 
       <p v-if="filteredPokemon.length === 0 && searchTerm.length > 0">No results found.</p>
     </section>
-  </aside>
+  </article>
 </template>
 
 <style lang="scss" scoped>
-@import '../assets/styles/scss/variables.scss';
-
 .lateral-pokemon {
   display: flex;
   flex-direction: column;
   padding: 1em;
   background-color: $background-color-secundary;
   background-image: $background-image-primary;
-  height: 100vh;
+  height: 80vh;
   text-align: center;
 
   &__nav {
@@ -100,14 +97,20 @@ watch(searchTerm, (newTerm) => {
   }
 
   &__section {
+    margin: 1em 0 0 0;
     &--active {
       overflow-y: scroll;
+      max-height: 60vh;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 1em;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      padding: 1em;
     }
 
     &--pokedex {
       display: flex;
       justify-content: center;
-      margin-top: 6em;
+      margin: 6em 0 0 0;
     }
   }
 
@@ -116,18 +119,14 @@ watch(searchTerm, (newTerm) => {
     height: 3em;
     font-size: 1em;
     padding: 0.5em;
-    border: 0.2em solid #ccc;
+    border: 0.2em solid $border-color-input;
     border-radius: 5em;
     margin: 1.5em 0;
     text-align: center;
   }
-
-  &__ul {
-    list-style: none;
-  }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 48em) {
   .lateral-pokemon {
     padding: 0.5em;
     height: auto;

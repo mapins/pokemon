@@ -1,14 +1,9 @@
-@import './variables.scss';
-
 * {
   margin: 0;
   padding: 0;
   border: 0;
   box-sizing: border-box;
-  vertical-align: baseline;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  font-family: $font-family;
 }
 
 html {
@@ -17,18 +12,19 @@ html {
 }
 
 body {
+  display: none;
+  margin: 0;
+  padding: 0;
   max-width: 120rem;
-  margin: auto;
-  background-color: $background-color;
-  background-image: $background-image-primary;
-  font-family: $font-family;
   min-height: 100vh;
+  font-size: 100%;
 }
 
 p {
   font-size: 1.5em;
   text-wrap: pretty;
   line-height: 1.35em;
+  margin-bottom: 1em;
 }
 
 a {
@@ -47,4 +43,21 @@ input {
 button {
   font-size: $font-size-primary;
   font-family: $font-family;
+}
+
+ul {
+  list-style: none;
+}
+
+::-webkit-scrollbar {
+  width: 0.4375em;
+  height: auto;
+  border-radius: 0.25em;
+  background-color: $background-color-secundary;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 100%;
+  background: $background-color;
+  border-radius: 0.25em;
 }

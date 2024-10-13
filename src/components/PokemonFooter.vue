@@ -1,33 +1,33 @@
-<script setup></script>
-
+<script setup>
+import { socialLinks } from '@/constants/socialLinks.ts'
+</script>
 <template>
-  <footer class="pokemon-footer">
-    <section class="pokemon-foooter__section">
+  <article class="pokemon-footer">
+    <section class="pokemon-footer__section">
       <p class="pokemon-footer__p">© 2024 Pokémon App. All rights reserved.</p>
     </section>
     <section class="footer-pokemon__section">
-      <a href="#" class="pokemon-footer__a" aria-label="Link to our Twitter">
-        <img src="@/assets/img/twitter.png" alt="" class="pokemon-footer__img" />
-      </a>
-      <a href="#" class="pokemon-footer__a" aria-label="Link to our Facebook">
-        <img src="@/assets/img/facebook.png" alt="" class="pokemon-footer__img" />
-      </a>
-      <a href="#" class="pokemon-footer__a" aria-label="Link to our Instagram">
-        <img src="@/assets/img/instagram.png" alt="" class="pokemon-footer__img" />
+      <a
+        v-for="(link, index) in socialLinks"
+        :key="index"
+        :href="link.url"
+        class="pokemon-footer__a"
+        :aria-label="link.label"
+      >
+        <img :src="link.img" alt="" class="pokemon-footer__img" />
       </a>
     </section>
-  </footer>
+  </article>
 </template>
 
 <style lang="scss" scoped>
-@import '../assets/styles/scss/variables.scss';
-
 .pokemon-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1em;
-  color: $text-color-secundary;
+  /*   color: $text-color-secundary;
+ */
   text-align: center;
 
   &__section {
@@ -55,7 +55,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 48em) {
   .pokemon-footer {
     flex-direction: column;
     gap: 1em;
