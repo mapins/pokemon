@@ -66,7 +66,7 @@ watch(searchTerm, (newTerm) => {
   padding: 1em;
   background-color: $background-color-secundary;
   background-image: $background-image-primary;
-  height: 80vh;
+  height: 100vh;
   text-align: center;
 
   &__nav {
@@ -100,7 +100,7 @@ watch(searchTerm, (newTerm) => {
     margin: 1em 0 0 0;
     &--active {
       overflow-y: scroll;
-      max-height: 60vh;
+      max-height: 100vh;
       background-color: rgba(255, 255, 255, 0.9);
       border-radius: 1em;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);

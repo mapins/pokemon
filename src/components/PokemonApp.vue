@@ -23,13 +23,13 @@ import PokemonFooter from './PokemonFooter.vue'
 <style lang="scss" scoped>
 .layout {
   @include flex(column);
+  min-height: 100vh;
   &__sidebar {
     width: 25em;
   }
 
   &__page {
     display: flex;
-    height: 80vh;
     width: 100%;
   }
 
@@ -49,6 +49,7 @@ import PokemonFooter from './PokemonFooter.vue'
     text-align: center;
     background-color: $background-color-secundary;
     background-image: $background-image-primary;
+    margin-top: auto;
   }
 }
 
